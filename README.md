@@ -2,5 +2,7 @@
 ## Demo
 <a href="http://mrbanana2024.000.pe/up00.html">http://mrbanana2024.000.pe/up00.html</a>
 ## passwd
-save file > moz
+<pre>
+save file > moz<br>
 page recovery > banana
+</pre>
