@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Didash Uploader</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style>
+    body {
+  background-color: white;
+  color: black;
+}
+.blinking-btn {
+    animation: blinker 2s linear infinite;
+    float: right;
+    margin-top: -37px;
+    display: none;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+</style>
+<body>
+    <code>
+        <div class="container-fluid p-5 bg-primary text-white text-center">
+            <h1>Didash Uploader</h1>
+            <h6>Create By Mr-Banana-2045</h6>
+        </div>
+        <div class="container p-5 my-5 border shadow p-4 mb-4 bg-white">
+            <h3 class="text-center text-dark" style="margin-bottom: 20px;"><dt>Welcome to page admin</dt></h3>
+<form action="upload.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text">Name File</span>
+    <input type="text" name="names" id="names" class="form-control input-lg" required>
+</div>
+    <div class="custom-file mb-3">
+    <input type="file" name="html_code" class="custom-file-input" id="customFile" accept=".html" required><br>
+    <span class="custom-file-label" for="customFile">Select file</span>
+</div>
+    <button type="submit" name="submit" class="btn btn-success btn-block" onclick="pass()" id="send">send</button>
+    <input type="hidden" name="msg" id="msg">
+    <button class="btn btn-success btn-block" style="display: none;" id="sent" disabled>
+        <span class="spinner-grow spinner-grow-sm"></span>
+        sending..
+      </button>
+      <button class="btn btn-success btn-block" style="display: none;" id="sentlod" disabled>
+        <span class="spinner-grow spinner-grow-sm"></span>
+        loading..
+      </button>
+        <button class="btn btn-danger blinking-btn" id="op" data-toggle="modal" data-target="#myModal">!</button>
+</div>
+</form>
+  <div class="container mt-3 alert alert-danger alert-dismissible" id="err" style="display: none;">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Danger!</strong> Please fill in the fields
+  </div>
+  <div class="container mt-3 alert alert-danger alert-dismissible" id="errAc" style="display: none;">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Danger!</strong> Your account has been banned due to excessive usage
+  </div>
+  <div class="container mt-3 alert alert-danger alert-dismissible" id="errPs" style="display: none;">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Danger!</strong> The password is invalid
+  </div>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
+    <div class="container-fluid p-2 text-center">
+      <a class="navbar-brand">Mr-Banana-2045</a>
+    </div>
+  </nav>
+  
+  <div class="modal fade text-dark" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Remove panel restrictions</h4>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+          <p>Enter the desired password to remove the restriction</p>
+          <input type="text" class="form-control input-lg" id="passw" placeholder="password" required>
+          <button class="btn btn-success btn-block" style="margin-top: 10px;" id="save" onclick="pasop()" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</code>
+</body>
+<script>
+    function pass(){
+        var msg = prompt("password");
+        document.getElementById("msg").value = msg;
+        var name = document.getElementsByName('names').value;
+        if (name !== '') {
+            document.getElementById('err').style.display = 'block';
+        }
+        if (document.getElementsByName('names')[0].value !== '') {
+                document.getElementById('sent').style.display = 'block';
+                document.getElementById('send').style.display = 'none';
+        }
+    }
+    if (localStorage.getItem('pageAccessCount')) {
+        let count = parseInt(localStorage.getItem('pageAccessCount'));
+        count++;
+        localStorage.setItem('pageAccessCount', count.toString());
+        if (count > 5) {
+          document.getElementById('errAc').style.display = 'block';
+          document.getElementById('sentlod').style.display = 'block';
+          document.getElementById('op').style.display = 'block';
+          document.getElementById('sent').style.display = 'none';
+          document.getElementById('send').style.display = 'none';
+        }
+    } else {
+        localStorage.setItem('pageAccessCount', '1');
+    }
+    function pasop(){
+      if(document.getElementById('passw').value == "banana"){
+        document.getElementById('errAc').style.display = 'none';
+          document.getElementById('sentlod').style.display = 'none';
+          document.getElementById('op').style.display = 'none';
+          document.getElementById('errPs').style.display = 'none';
+          document.getElementById('myModal').style.display = 'none';
+          document.getElementById('send').style.display = 'block';
+      } else {
+        document.getElementById('errPs').style.display = 'block';
+      }
+    }
+</script>
+<script>
+    $(".custom-file-input").on("change", function() {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    </script> 
+</html>
